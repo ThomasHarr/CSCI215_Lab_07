@@ -12,6 +12,7 @@ window.onload = init; // calls the function named "init"
 // declare the background image
 var bgImage = new Image();
 var initialImage = new Image();
+var bgSound = new Audio();
 
 // Is called when the window loads;
 function init() {
@@ -38,7 +39,7 @@ function init() {
 	draw();
 
 	// TODO: (OPTIONAL) set mario_08.wav as background music
-   var bgSound = new Audio("mario_08.wav");
+   bgSound = Audio("mario_08.wav");
    play = bgSound;
 }
 
@@ -119,21 +120,11 @@ function draw() {
         	Mario.timer = setInterval(render, Mario.timerInterval); 
     	}else if(keycode === 82){
     	    Mario.moving = "right";
-            Mario.Image.src = "marioturnsright.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-    	    Mario.timer = setTimeout(right, Mario.timerInterval);
+    	    Mario.timer = setTimeout(right, 50);
         }else if(keycode === 76){
     	    Mario.moving = "left";
-            Mario.timer = setTimeout(left, Mario.timerInterval);
-        }else if(Mario.x >= 1350){
-            Mario.moving = "no";
-            Mario.Image.src = "mario1.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-        }else if(Mario.x <= 100){
-            Mario.moving = "no";
-            Mario.Image.src = "mario1.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-        }
+            Mario.timer = setTimeout(left, 50);
+		}
     };
 
     /* TODO:
@@ -142,39 +133,48 @@ function draw() {
      */
     function right(){
         ctx.drawImage(bgImage, 0, 0);
+        Mario.Image.src = "marioturnsright.png";
+        ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
 
         if (Mario.moving == "right"){
             if (Mario.x <= 1155){
                 Mario.x += 5; // move 5 px right
             }
-            Mario.timer = setTimeout(faceForward, 200);
         }
     }
 
 
     function left(){
         ctx.drawImage(bgImage, 0, 0);
-
+        Mario.Image.src = "marioturnsleft.png";
+        ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
 
         if (Mario.moving == "left"){
-            Mario.Image.src = "marioturnsleft.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-            Mario.x -= 10; // move 10 px left
-            Mario.timer = setTimeout(faceForward, 200);
-        }else{
-            Mario.Image.src = "mario1.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-            clearInterval(Mario.timer); // kills the timer
+            if(Mario.x >= 5){
+                Mario.x -= 5; // move 5 px left
+			}
         }
     }
 
+    document.body.onkeyup = function(e) {  // listen for a key
+
+        e = event || window.event;             // any kind of event
+        var keycode = e.charCode || e.keyCode;
+
+        if(keycode == 76){
+            Mario.timer = setTimeout(faceForward, 200);
+		}
+
+		if(keycode == 82){
+            Mario.timer = setTimeout(faceForward, 200);
+		}
+    };
 
 
     /*
      * TODO: Face Mario forward. Do not forget to draw the background image first
      */
     function faceForward() {
-        console.log("face Forward");
         ctx.drawImage(bgImage, 0, 0);
         Mario.moving = "no";
         Mario.Image.src = "mario1.png";
