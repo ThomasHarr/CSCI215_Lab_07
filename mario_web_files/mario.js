@@ -142,17 +142,12 @@ function draw() {
      */
     function right(){
         ctx.drawImage(bgImage, 0, 0);
-        console.log("right");
 
         if (Mario.moving == "right"){
-            console.log("once");
-            Mario.x += 10; // move 10 px right
+            if (Mario.x <= 1155){
+                Mario.x += 5; // move 5 px right
+            }
             Mario.timer = setTimeout(faceForward, 200);
-        }else{
-            Mario.moving = "no";
-            Mario.Image.src = "mario1.png";
-            ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
-            clearInterval(Mario.timer); // kills the timer
         }
     }
 
@@ -167,7 +162,6 @@ function draw() {
             Mario.x -= 10; // move 10 px left
             Mario.timer = setTimeout(faceForward, 200);
         }else{
-            Mario.moving = "no";
             Mario.Image.src = "mario1.png";
             ctx.drawImage(Mario.Image, Mario.x, Mario.y, Mario.w, Mario.h);
             clearInterval(Mario.timer); // kills the timer
