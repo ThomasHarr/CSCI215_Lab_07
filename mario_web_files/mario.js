@@ -38,8 +38,7 @@ function init() {
 	draw();
 
 	// TODO: (OPTIONAL) set mario_08.wav as background music
-   var bgSound = new Audio("mario_08.wav");
-   play = bgSound;
+   
 }
 
 ////////////////////////////////////////////////////////////////////
